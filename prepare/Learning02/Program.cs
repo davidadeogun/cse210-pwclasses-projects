@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 class Program
 {
@@ -6,7 +7,7 @@ class Program
     {
         Console.WriteLine("Hello Learning02 World!");
         
-        //call the function "JobInfo()" and pass in the values
+        //call the function "Display()" and pass in the values
         Job job = new Job();
         job._companyName = "Microsoft";
         job._jobTitle = "Software Engineer";
@@ -22,6 +23,14 @@ class Program
         job1._startYear =  2011;
         job1._endyear = 2019;
         job1.Display();
+
+        Resume myResume = new Resume();
+        myResume._name = "Allison Rose";
+        myResume._jobs.Add(job1);
+       
+
+        myResume.DisplayResumeDetails();
+        myResume.Display();
     }
 }
 
@@ -47,3 +56,4 @@ public class Job
     
 
 }
+
