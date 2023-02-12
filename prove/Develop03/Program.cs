@@ -13,6 +13,9 @@ namespace ScriptureReference
             scriptureLibrary.Add(new ScriptureScripture(new ReferenceReference("John 3:16"), "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."));
             scriptureLibrary.Add(new ScriptureScripture(new ReferenceReference("Matthew 5:16"), "In the same way, let your light shine before others, so that they may see your good works and give glory to your Father in heaven."));
             scriptureLibrary.Add(new ScriptureScripture(new ReferenceReference("Philippians 4:13"), "I can do all things through Christ who gives me strength."));
+            
+            //Multiple verses
+            scriptureLibrary.Add(new ScriptureScripture(new ReferenceReference("Proverbs 3:5-6"), "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."));
 
             //And a scripture is chosen at random from the library of scriptures - Exceeding requirement
             Random random = new Random();
@@ -42,18 +45,42 @@ namespace ScriptureReference
     {
         // Private variable to store the reference
         private string _referenceRef;
+        private int _startVerse;
+        private int _endVerse;
 
-        // Constructor to initialize the reference
+        // Constructor to initialize the reference for a single verse
         public ReferenceReference(string reference)
         {
             this._referenceRef = reference;
         }
+
+        // Constructor to initialize the reference for a verse range
+        public ReferenceReference(string reference, int startVerse, int endVerse)
+        {
+            this._referenceRef = reference + ":" + startVerse + "-" + endVerse;
+            this._startVerse = startVerse;
+            this._endVerse = endVerse;
+        }
+
         // Method to return the reference
         public string GetReference()
         {
             return _referenceRef;
         }
+
+        // Method to return the start verse of a verse range
+        public int GetStartVerse()
+        {
+            return _startVerse;
+        }
+
+        // Method to return the end verse of a verse range
+        public int GetEndVerse()
+        {
+            return _endVerse;
+        }
     }
+
 
     class ScriptureScripture
     {
@@ -66,7 +93,23 @@ namespace ScriptureReference
         public ScriptureScripture(ReferenceReference reference, string text)
         {
             this._referenceScripture = reference;
-           this._wordsScripture = text.Split(' ').Select(x => new WordWorded(x)).ToList();
+            this._wordsScripture = text.Split(' ').Select(x => new WordWorded(x)).ToList();
+            this._hiddenWords = new List<WordWorded>();
+        }
+
+        // New constructor to handle a single verse
+        public ScriptureScripture(string reference, string text)
+        {
+            this._referenceScripture = new ReferenceReference(reference);
+            this._wordsScripture = text.Split(' ').Select(x => new WordWorded(x)).ToList();
+            this._hiddenWords = new List<WordWorded>();
+        }
+
+        // New constructor to handle a verse range
+        public ScriptureScripture(string startReference, string endReference, string text)
+        {
+            this._referenceScripture = new ReferenceReference(startReference + "-" + endReference);
+            this._wordsScripture = text.Split(' ').Select(x => new WordWorded(x)).ToList();
             this._hiddenWords = new List<WordWorded>();
         }
 
@@ -113,8 +156,8 @@ namespace ScriptureReference
                 }
             }
         }
-
     }
+
 
 
 
