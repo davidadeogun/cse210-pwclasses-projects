@@ -1,4 +1,4 @@
-SimpleGoal,sleep,33,33
+SimpleGoal,Exercise,50,50
 simple,True
-ChecklistGoal,rolling,60,60
-checklist,1,0
+ChecklistGoal,Punching,5100,10200
+checklist,2,2

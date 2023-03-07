@@ -57,7 +57,8 @@ class EternalGoal : Goal
     public override string GetStatus()
     {
         //return IsCompleted ? "[X]" : "[ ]";
-        return $"Completed {NumCompletions} times";
+        //return $"Completed {NumCompletions} times";
+        return $"[ ]";
     }
 
     public override int RecordEvent()
@@ -82,19 +83,21 @@ class ChecklistGoal : Goal
     // To create a new ChecklistGoal with a target of 3 completions:
 
     public override int RecordEvent()
-    {
-        NumCompletions++;
-        TotalPoints += PointsPerCompletion;
-        if (NumCompletions == 3)
-        {
-            TotalPoints += 500;
+{
+    NumCompletions++;
+    TotalPoints += PointsPerCompletion;
 
-            // To create a new ChecklistGoal with a target of 3 completions:
-           
-        }
-        return PointsPerCompletion;
+    int bonusPoints = 0;
+    int completeAmount = TargetNumCompletions;
+
+    if (NumCompletions == completeAmount)
+    {
+        TotalPoints += bonusPoints;
     }
-    
+
+    return PointsPerCompletion;
+}
+
 }
 
 // Main program class
@@ -102,10 +105,17 @@ class Program
 {
     static List<Goal> goals = new List<Goal>();
 
+    public static string Description { get; private set; }
+
     static void Main()
     {
+        Console.WriteLine("Welcome to the Eternal Quest program");
+        Console.WriteLine();
         while (true)
         {
+            int totalPoints = goals.Sum(goal => goal.TotalPoints);
+            Console.WriteLine($"You have {totalPoints} points");
+            Console.WriteLine();
             Console.WriteLine("Menu Options:");
             Console.WriteLine("1. Create new goal");
             Console.WriteLine("2. List goals");
@@ -148,58 +158,74 @@ class Program
     }
 
     static void CreateGoal()
+{
+    Console.WriteLine("The types of Goals are: ");
+
+    Console.WriteLine("1. Simple goal");
+    Console.WriteLine("2. Eternal goal");
+    Console.WriteLine("3. Checklist goal");
+    Console.WriteLine("What type of goal would you like to create?");
+
+    string choiceStr = Console.ReadLine();
+    if (!int.TryParse(choiceStr, out int choice))
     {
-        Console.WriteLine("The types of Goals are: ");
+        Console.WriteLine("Invalid choice");
+        return;
+    }
 
-        Console.WriteLine("1. Simple goal");
-        Console.WriteLine("2. Eternal goal");
-        Console.WriteLine("3. Checklist goal");
-        Console.WriteLine("What type of goal would you like to create?");
-
-        string choiceStr = Console.ReadLine();
-        if (!int.TryParse(choiceStr, out int choice))
-        {
+    Goal goal;
+    switch (choice)
+    {
+        case 1:
+            goal = new SimpleGoal();
+            break;
+        case 2:
+            goal = new EternalGoal();
+            break;
+        case 3:
+            goal = new ChecklistGoal();
+            break;
+        default:
             Console.WriteLine("Invalid choice");
             return;
-        }
-
-        Goal goal;
-        switch (choice)
-        {
-            case 1:
-                goal = new SimpleGoal();
-                break;
-            case 2:
-                goal = new EternalGoal();
-                break;
-            case 3:
-                goal = new ChecklistGoal();
-                break;
-            default:
-                Console.WriteLine("Invalid choice");
-                return;
-        }
-
-        Console.Write("What is the name of the goal? ");
-        goal.Name = Console.ReadLine();
-
-        Console.Write("What is the goal description? ");
-        goal.Description = Console.ReadLine();
-
-        Console.Write("What is the amount of points associated with this goal? ");
-        if (!int.TryParse(Console.ReadLine(), out int pointsPerCompletion))
-        {
-            Console.WriteLine("Invalid points");
-            return;
-        }
-        goal.PointsPerCompletion = pointsPerCompletion;
-
-        goals.Add(goal);
-        //Console.WriteLine($"Created goal {goal.Name}");
-
- 
-
     }
+
+    Console.Write("What is the name of the goal? ");
+    goal.Name = Console.ReadLine();
+
+    Console.Write("What is the goal description? ");
+    goal.Description = Console.ReadLine();
+
+    Console.Write("What is the amount of points associated with this goal? ");
+    if (!int.TryParse(Console.ReadLine(), out int pointsPerCompletion))
+    {
+        Console.WriteLine("Invalid points");
+        return;
+    }
+    goal.PointsPerCompletion = pointsPerCompletion;
+
+    // Prompt for bonus information for ChecklistGoals
+    if (goal is ChecklistGoal checklistGoal)
+    {
+        (int completeAmount, int bonusPoints) = PromptForBonus();
+        checklistGoal.TargetNumCompletions = completeAmount;
+        checklistGoal.PointsPerCompletion += bonusPoints;
+    }
+
+    goals.Add(goal);
+
+}
+
+    private static (int, int) PromptForBonus()
+{
+    Console.Write("How many times this goal needs to be accomplished for a bonus?");
+    int completeAmount = int.Parse(Console.ReadLine());
+
+    Console.Write("What is the bonus for accomplishing it that many times?");
+    int bonusPoints = int.Parse(Console.ReadLine());
+
+    return (completeAmount, bonusPoints);
+}
 
     static void ListGoals()
     {
@@ -211,7 +237,7 @@ class Program
 
         Console.WriteLine();
         int totalPoints = goals.Sum(goal => goal.TotalPoints);
-        Console.WriteLine($"You have {totalPoints} points");
+        //Console.WriteLine($"You have {totalPoints} points");
         Console.WriteLine();
     }
 
@@ -301,13 +327,21 @@ class Program
                 }
 
                 goal.Name = name;
+                goal.Description = Description;
                 goal.PointsPerCompletion = pointsPerCompletion;
                 goal.TotalPoints = totalPoints;
                 goals.Add(goal);
             }
         }
-
-        Console.WriteLine($"Loaded goals from {filename}");
+        Console.WriteLine();
+        Console.WriteLine($"Loaded goals from {filename} are:");
+        foreach (Goal goal in goals)
+        {
+            Console.WriteLine(
+                $"{goal.GetType().Name}: {goal.Name} ({goal.Description}) - {goal.TotalPoints} points"
+            );
+            Console.WriteLine();
+        }
     }
 
     static void RecordEvent()
@@ -332,6 +366,6 @@ class Program
 
         Goal goal = goals[choice - 1];
         int points = goal.RecordEvent();
-        Console.WriteLine($"Congratulations! You have earned (+{points} points)");
+        Console.WriteLine($"Congratulations! You have earned {points} points");
     }
 }
