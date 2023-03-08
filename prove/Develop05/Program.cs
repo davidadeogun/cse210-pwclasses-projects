@@ -334,7 +334,7 @@ class Program
             }
         }
         Console.WriteLine();
-        Console.WriteLine($"Loaded goals from {filename} are:");
+        Console.WriteLine($"Loaded from {filename}. The goals are: ");
         foreach (Goal goal in goals)
         {
             Console.WriteLine(

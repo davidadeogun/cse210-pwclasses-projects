@@ -1,4 +1,0 @@
-SimpleGoal,Exercise,50,50
-simple,True
-ChecklistGoal,Punching,5100,10200
-checklist,2,2
