@@ -1,2 +1,2 @@
-ChecklistGoal,ososo,35,0
-0,3
+ChecklistGoal,ppp,35,70
+2,2

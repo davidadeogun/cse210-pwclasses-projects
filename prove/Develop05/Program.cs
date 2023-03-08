@@ -229,19 +229,28 @@ class Program
     return (completeAmount, bonusPoints);
 }
 
-    static void ListGoals()
+static void ListGoals()
+{
+    Console.WriteLine("The goals are:");
+    foreach (Goal goal in goals)
     {
-        Console.WriteLine("The goals are:");
-        foreach (Goal goal in goals)
+        Console.Write($"{goal.GetStatus()} {goal.Name} ({goal.Description})");
+
+        if (goal is ChecklistGoal checklistGoal)
         {
-            Console.WriteLine($"{goal.GetStatus()} {goal.Name} ({goal.Description})");
+            Console.Write($" - Completed {checklistGoal.NumCompletions}/{checklistGoal.TargetNumCompletions} times");
         }
 
         Console.WriteLine();
-        int totalPoints = goals.Sum(goal => goal.TotalPoints);
-        //Console.WriteLine($"You have {totalPoints} points");
-        Console.WriteLine();
     }
+
+    Console.WriteLine();
+    int totalPoints = goals.Sum(goal => goal.TotalPoints);
+    Console.WriteLine($"You have {totalPoints} points");
+    Console.WriteLine();
+}
+
+
 
     static void SaveGoals()
     {
