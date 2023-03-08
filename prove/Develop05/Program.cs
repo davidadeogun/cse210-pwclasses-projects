@@ -79,7 +79,7 @@ class ChecklistGoal : Goal
 
  public override string GetStatus()
 {
-    return NumCompletions >= TargetNumCompletions ? $"[X] Completed {NumCompletions}/{TargetNumCompletions} times" : $"[ ] {NumCompletions}/{TargetNumCompletions}";
+    return NumCompletions >= TargetNumCompletions ? $"[X]" : $"[ ]";
 }
 
 
