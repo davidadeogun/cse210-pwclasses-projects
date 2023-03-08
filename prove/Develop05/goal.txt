@@ -1,2 +1,2 @@
-SimpleGoal,ksks,10,0
-simple,False
+ChecklistGoal,ososo,35,0
+0,3

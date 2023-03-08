@@ -70,21 +70,22 @@ class EternalGoal : Goal
 }
 
 // Checklist goal that must be accomplished a certain number of times
+// Checklist goal that must be accomplished a certain number of times
 class ChecklistGoal : Goal
 {
     public int TargetNumCompletions { get; set; }
     public int NumCompletions { get; set; }
+    public int bonusPoints { get; private set; }
 
-    public override string GetStatus()
-    {
-        return $"Completed {NumCompletions}/{TargetNumCompletions} times";
-    }
+ public override string GetStatus()
+{
+    return NumCompletions >= TargetNumCompletions ? $"[X] Completed {NumCompletions}/{TargetNumCompletions} times" : $"[ ] {NumCompletions}/{TargetNumCompletions}";
+}
 
-    // To create a new ChecklistGoal with a target of 3 completions:
 
     public override int RecordEvent()
-{
-    NumCompletions++;
+    {
+       NumCompletions++;
     TotalPoints += PointsPerCompletion;
 
     int bonusPoints = 0;
@@ -96,9 +97,10 @@ class ChecklistGoal : Goal
     }
 
     return PointsPerCompletion;
-}
+    }
 
 }
+
 
 // Main program class
 class Program
@@ -254,16 +256,16 @@ class Program
                 );
                 if (goal is SimpleGoal simpleGoal)
                 {
-                    writer.WriteLine($"simple,{simpleGoal.IsCompleted}");
+                    writer.WriteLine($"{simpleGoal.IsCompleted}");
                 }
                 else if (goal is EternalGoal eternalGoal)
                 {
-                    writer.WriteLine($"eternal,{eternalGoal.NumCompletions}");
+                    writer.WriteLine($"{eternalGoal.NumCompletions}");
                 }
                 else if (goal is ChecklistGoal checklistGoal)
                 {
                     writer.WriteLine(
-                        $"checklist,{checklistGoal.NumCompletions},{checklistGoal.TargetNumCompletions}"
+                        $"{checklistGoal.NumCompletions},{checklistGoal.TargetNumCompletions}"
                     );
                 }
             }
@@ -338,7 +340,7 @@ class Program
         foreach (Goal goal in goals)
         {
             Console.WriteLine(
-                $"{goal.GetType().Name}: {goal.Name} ({goal.Description}) - {goal.TotalPoints} points"
+                $"{goal.GetType().Name}: {goal.Name} - {goal.TotalPoints} points"
             );
             Console.WriteLine();
         }
