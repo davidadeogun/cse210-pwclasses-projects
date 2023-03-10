@@ -282,78 +282,85 @@ static void ListGoals()
         // Console.WriteLine("Saved goals");
     }
 
-    static void LoadGoals()
+   static void LoadGoals()
+{
+    Console.Write("Enter filename to load goals from: ");
+    string filename = Console.ReadLine();
+
+    goals.Clear();
+    using (StreamReader reader = new StreamReader(filename))
     {
-        Console.Write("Enter filename to load goals from: ");
-        string filename = Console.ReadLine();
-
-        goals.Clear();
-        using (StreamReader reader = new StreamReader(filename))
+        while (!reader.EndOfStream)
         {
-            while (!reader.EndOfStream)
+            string[] parts = reader.ReadLine().Split(',');
+            if (parts.Length < 4)
             {
-                string[] parts = reader.ReadLine().Split(',');
-                if (parts.Length < 4)
-                {
-                    continue; // Skip empty or invalid lines
-                }
-                string typeName = parts[0];
-                string name = parts[1];
-                int pointsPerCompletion = int.Parse(parts[2]);
-                int totalPoints = int.Parse(parts[3]);
+                continue; // Skip empty or invalid lines
+            }
+            string typeName = parts[0];
+            string name = parts[1];
+            int pointsPerCompletion = int.Parse(parts[2]);
+            int totalPoints = int.Parse(parts[3]);
 
-                Goal goal;
-                switch (typeName)
-                {
-                    case "SimpleGoal":
-                        goal = new SimpleGoal();
-                        string isCompletedStr = reader.ReadLine()?.Split(',')[1];
+            Goal goal;
+            switch (typeName)
+            {
+                case "SimpleGoal":
+                    goal = new SimpleGoal();
+                    if (parts.Length > 4)
+                    {
+                        string isCompletedStr = parts[4];
                         if (isCompletedStr != null)
                         {
                             ((SimpleGoal)goal).IsCompleted = bool.Parse(isCompletedStr);
                         }
-                        break;
-                    case "EternalGoal":
-                        goal = new EternalGoal();
-                        string numCompletionsStr = reader.ReadLine()?.Split(',')[1];
+                    }
+                    break;
+                case "EternalGoal":
+                    goal = new EternalGoal();
+                    if (parts.Length > 4)
+                    {
+                        string numCompletionsStr = parts[4];
                         if (numCompletionsStr != null)
                         {
                             ((EternalGoal)goal).NumCompletions = int.Parse(numCompletionsStr);
                         }
-                        break;
-                    case "ChecklistGoal":
-                        goal = new ChecklistGoal();
-                        string numCompletionsStr2 = reader.ReadLine()?.Split(',')[1];
-                        string targetNumCompletionsStr = reader.ReadLine()?.Split(',')[2];
+                    }
+                    break;
+                case "ChecklistGoal":
+                    goal = new ChecklistGoal();
+                    if (parts.Length > 5)
+                    {
+                        string numCompletionsStr2 = parts[4];
+                        string targetNumCompletionsStr = parts[5];
                         if (numCompletionsStr2 != null && targetNumCompletionsStr != null)
                         {
                             ((ChecklistGoal)goal).NumCompletions = int.Parse(numCompletionsStr2);
-                            ((ChecklistGoal)goal).TargetNumCompletions = int.Parse(
-                                targetNumCompletionsStr
-                            );
+                            ((ChecklistGoal)goal).TargetNumCompletions = int.Parse(targetNumCompletionsStr);
                         }
-                        break;
-                    default:
-                        throw new Exception("Unknown goal type");
-                }
-
-                goal.Name = name;
-                goal.Description = Description;
-                goal.PointsPerCompletion = pointsPerCompletion;
-                goal.TotalPoints = totalPoints;
-                goals.Add(goal);
+                    }
+                    break;
+                default:
+                    throw new Exception("Unknown goal type");
             }
-        }
-        Console.WriteLine();
-        Console.WriteLine($"Loaded from {filename}. The goals are: ");
-        foreach (Goal goal in goals)
-        {
-            Console.WriteLine(
-                $"{goal.GetType().Name}: {goal.Name} - {goal.TotalPoints} points"
-            );
-            Console.WriteLine();
+
+            goal.Name = name;
+            goal.Description = Description;
+            goal.PointsPerCompletion = pointsPerCompletion;
+            goal.TotalPoints = totalPoints;
+            goals.Add(goal);
         }
     }
+    Console.WriteLine();
+    Console.WriteLine($"Loaded from {filename} ");
+    Console.WriteLine("The goals are:");
+    foreach (Goal goal in goals)
+    {
+        Console.WriteLine($"{goal.GetType().Name}: {goal.Name} - {goal.TotalPoints} points");
+        Console.WriteLine();
+    }
+}
+
 
     static void RecordEvent()
     {

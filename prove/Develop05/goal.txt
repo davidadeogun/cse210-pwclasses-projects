@@ -1,2 +1,2 @@
-ChecklistGoal,ppp,35,70
-2,2
+SimpleGoal,simple,100,0
+False
