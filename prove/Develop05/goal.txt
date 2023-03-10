@@ -1,2 +1,2 @@
-SimpleGoal,simple,100,0
+SimpleGoal,Jojo,100,0
 False

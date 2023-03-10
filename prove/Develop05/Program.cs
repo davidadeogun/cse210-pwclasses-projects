@@ -1,106 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-// Base class for all goals
-class Goal
-{
-    internal string Description;
-
-    public string Name { get; set; }
-    public int PointsPerCompletion { get; set; }
-    public int TotalPoints { get; set; }
-
-    // This method is overriden by derived classes as needed
-    public virtual string GetStatus()
-    {
-        return "";
-    }
-
-    // This method is called when the user records an event for this goal
-    public virtual int RecordEvent()
-    {
-        TotalPoints += PointsPerCompletion;
-        return PointsPerCompletion;
-    }
-}
-
-// Simple goal that can be marked complete
-class SimpleGoal : Goal
-{
-    public bool IsCompleted { get; set; }
-
-    public override string GetStatus()
-    {
-        return IsCompleted ? "[X]" : "[ ]";
-    }
-
-    public override int RecordEvent()
-    {
-        if (!IsCompleted)
-        {
-            IsCompleted = true;
-            TotalPoints += PointsPerCompletion;
-            return PointsPerCompletion;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-}
-
-// Eternal goal that is never complete
-class EternalGoal : Goal
-{
-    public int NumCompletions { get; set; }
-
-    public override string GetStatus()
-    {
-        //return IsCompleted ? "[X]" : "[ ]";
-        //return $"Completed {NumCompletions} times";
-        return $"[ ]";
-    }
-
-    public override int RecordEvent()
-    {
-        NumCompletions++;
-        TotalPoints += PointsPerCompletion;
-        return PointsPerCompletion;
-    }
-}
-
-// Checklist goal that must be accomplished a certain number of times
-// Checklist goal that must be accomplished a certain number of times
-class ChecklistGoal : Goal
-{
-    public int TargetNumCompletions { get; set; }
-    public int NumCompletions { get; set; }
-    public int bonusPoints { get; private set; }
-
- public override string GetStatus()
-{
-    return NumCompletions >= TargetNumCompletions ? $"[X]" : $"[ ]";
-}
-
-
-    public override int RecordEvent()
-    {
-       NumCompletions++;
-    TotalPoints += PointsPerCompletion;
-
-    int bonusPoints = 0;
-    int completeAmount = TargetNumCompletions;
-
-    if (NumCompletions == completeAmount)
-    {
-        TotalPoints += bonusPoints;
-    }
-
-    return PointsPerCompletion;
-    }
-
-}
-
 
 // Main program class
 class Program
@@ -356,7 +256,7 @@ static void ListGoals()
     Console.WriteLine("The goals are:");
     foreach (Goal goal in goals)
     {
-        Console.WriteLine($"{goal.GetType().Name}: {goal.Name} - {goal.TotalPoints} points");
+        //Console.WriteLine($"{goal.GetType().Name}: {goal.Name} - {goal.TotalPoints} points");
         Console.WriteLine();
     }
 }
