@@ -1,2 +1,1 @@
-SimpleGoal,Jojo,100,0
-False
+ChecklistGoal,jumping,lalla,100,250,2,2,50
