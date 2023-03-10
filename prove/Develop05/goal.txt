@@ -1,1 +1,1 @@
-ChecklistGoal,jumping,lalla,100,250,2,2,50
+ChecklistGoal,Father alwmih,isdiidi,100,0,2,0,30

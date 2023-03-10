@@ -174,6 +174,9 @@ writer.WriteLine(goalString);
 Console.WriteLine("Goals saved successfully!");
 }
 
+
+
+
 static void LoadGoals()
 {
     Console.Write("Enter filename to load goals from: ");
@@ -182,26 +185,29 @@ static void LoadGoals()
     goals.Clear();
     using (StreamReader reader = new StreamReader(filename))
     {
+        int lineNumber = 0;
         while (!reader.EndOfStream)
         {
+            lineNumber++;
             string[] parts = reader.ReadLine().Split(',');
-            if (parts.Length < 4)
+            if (parts.Length < 5)
             {
                 continue; // Skip empty or invalid lines
             }
             string typeName = parts[0];
             string name = parts[1];
-            int pointsPerCompletion = int.Parse(parts[2]);
-            int totalPoints = int.Parse(parts[3]);
+            string description = parts[2];
+            int pointsPerCompletion = int.Parse(parts[3]);
+            int totalPoints = int.Parse(parts[4]);
 
             Goal goal;
             switch (typeName)
             {
                 case "SimpleGoal":
-                    goal = new SimpleGoal(name, "", pointsPerCompletion, false);
-                    if (parts.Length > 4)
+                    goal = new SimpleGoal(name, description, pointsPerCompletion);
+                    if (parts.Length > 5)
                     {
-                        string isCompletedStr = parts[4];
+                        string isCompletedStr = parts[5];
                         if (isCompletedStr != null)
                         {
                             ((SimpleGoal)goal).IsCompleted = bool.Parse(isCompletedStr);
@@ -209,10 +215,10 @@ static void LoadGoals()
                     }
                     break;
                 case "EternalGoal":
-                    goal = new EternalGoal(name, "", pointsPerCompletion, 0);
-                    if (parts.Length > 4)
+                    goal = new EternalGoal(name, description, pointsPerCompletion, 0);
+                    if (parts.Length > 5)
                     {
-                        string numCompletionsStr = parts[4];
+                        string numCompletionsStr = parts[5];
                         if (numCompletionsStr != null)
                         {
                             ((EternalGoal)goal).NumCompletions = int.Parse(numCompletionsStr);
@@ -220,17 +226,15 @@ static void LoadGoals()
                     }
                     break;
                 case "ChecklistGoal":
-                    goal = new ChecklistGoal(name, "", pointsPerCompletion, 0, 0, 0);
-                    if (parts.Length > 5)
+                    goal = new ChecklistGoal(name, description, pointsPerCompletion, 0, 0);
+                    if (parts.Length > 6)
                     {
-                        string targetNumCompletionsStr = parts[4];
                         string numCompletionsStr2 = parts[5];
-                        string bonusPointsStr = parts[6];
-                        if (targetNumCompletionsStr != null && numCompletionsStr2 != null && bonusPointsStr != null)
+                        string targetNumCompletionsStr = parts[6];
+                        if (numCompletionsStr2 != null && targetNumCompletionsStr != null)
                         {
-                            ((ChecklistGoal)goal).TargetNumCompletions = int.Parse(targetNumCompletionsStr);
                             ((ChecklistGoal)goal).NumCompletions = int.Parse(numCompletionsStr2);
-                            ((ChecklistGoal)goal).BonusPoints = int.Parse(bonusPointsStr);
+                            ((ChecklistGoal)goal).TargetNumCompletions = int.Parse(targetNumCompletionsStr);
                         }
                     }
                     break;
@@ -238,7 +242,6 @@ static void LoadGoals()
                     throw new Exception("Unknown goal type");
             }
 
-            goal.Description = reader.ReadLine();
             goal.TotalPoints = totalPoints;
             goals.Add(goal);
         }
@@ -251,6 +254,7 @@ static void LoadGoals()
         Console.WriteLine($"{goal.GetType().Name}: {goal.Name} - {goal.TotalPoints} points");
     }
 }
+
 
 static void RecordEvent()
 {
@@ -276,7 +280,7 @@ static void RecordEvent()
     int points = goal.RecordEvent();
     Console.WriteLine($"Congratulations! You have earned {points} points");
 
-    SaveGoals();
+   // SaveGoals();
 }
 
 }

@@ -10,6 +10,8 @@ class EternalGoal : Goal
         NumCompletions = numCompletions;
     }
 
+   
+
     public override string GetStatus()
     {
         return $"[ ]";

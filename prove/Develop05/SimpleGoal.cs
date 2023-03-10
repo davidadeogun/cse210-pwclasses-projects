@@ -9,7 +9,14 @@ public SimpleGoal(string name, string description, int pointsPerCompletion, bool
     IsCompleted = isCompleted;
 }
 
-public override string GetStatus()
+    public SimpleGoal(string name, string description, int pointsPerCompletion)
+    {
+        Name = name;
+        Description = description;
+        PointsPerCompletion = pointsPerCompletion;
+    }
+
+    public override string GetStatus()
 {
     return IsCompleted ? "[X]" : "[ ]";
 }
