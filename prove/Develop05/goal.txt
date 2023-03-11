@@ -1,1 +1,1 @@
-ChecklistGoal,Father alwmih,isdiidi,100,0,2,0,30
+SimpleGoal,kk,ododl,1002,1002,True

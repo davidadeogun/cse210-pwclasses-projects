@@ -1,13 +1,13 @@
 class EternalGoal : Goal
 {
-    public int NumCompletions { get; set; }
+    public int _numCompletions { get; set; }
 
     public EternalGoal(string name, string description, int pointsPerCompletion, int numCompletions)
     {
-        Name = name;
-        Description = description;
-        PointsPerCompletion = pointsPerCompletion;
-        NumCompletions = numCompletions;
+        _name = name;
+        _description = description;
+        _pointsPerCompletion = pointsPerCompletion;
+        _numCompletions = numCompletions;
     }
 
    
@@ -19,13 +19,13 @@ class EternalGoal : Goal
 
     public override int RecordEvent()
     {
-        NumCompletions++;
-        TotalPoints += PointsPerCompletion;
-        return PointsPerCompletion;
+        _numCompletions++;
+        _totalPoints += _pointsPerCompletion;
+        return _pointsPerCompletion;
     }
 
     public override string ToDataString()
     {
-        return $"{base.ToDataString()},{NumCompletions}";
+        return $"{base.ToDataString()},{_numCompletions}";
     }
 }

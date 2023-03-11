@@ -1,51 +1,51 @@
 class ChecklistGoal : Goal
 {
-    private int v1;
-    private int v2;
+    private int _verse1;
+    private int _verse2;
 
-    public int TargetNumCompletions { get; set; }
-public int NumCompletions { get; set; }
-public int BonusPoints { get; set; }
+    public int _targetNumCompletions { get; set; }
+public int _numCompletions { get; set; }
+public int _bonusPoints { get; set; }
 public ChecklistGoal(string name, string description, int pointsPerCompletion, int targetNumCompletions, int numCompletions, int bonusPoints)
 {
-    Name = name;
-    Description = description;
-    PointsPerCompletion = pointsPerCompletion;
-    TargetNumCompletions = targetNumCompletions;
-    NumCompletions = numCompletions;
-    BonusPoints = bonusPoints;
+    _name = name;
+    _description = description;
+    _pointsPerCompletion = pointsPerCompletion;
+    _targetNumCompletions = targetNumCompletions;
+    _numCompletions = numCompletions;
+    _bonusPoints = bonusPoints;
     
 }
 
     public ChecklistGoal(string name, string description, int pointsPerCompletion, int v1, int v2)
     {
-        Name = name;
-        Description = description;
-        PointsPerCompletion = pointsPerCompletion;
-        this.v1 = v1;
-        this.v2 = v2;
+        _name = name;
+        _description = description;
+        _pointsPerCompletion = pointsPerCompletion;
+        _verse1 = v1;
+        _verse2 = v2;
     }
 
     public override string GetStatus()
 {
-    return NumCompletions >= TargetNumCompletions ? "[X]" : "[ ]";
+    return _numCompletions >= _targetNumCompletions ? "[X]" : "[ ]";
 }
 
 public override int RecordEvent()
 {
-    NumCompletions++;
-    TotalPoints += PointsPerCompletion;
+    _numCompletions++;
+    _totalPoints += _pointsPerCompletion;
 
-    if (NumCompletions == TargetNumCompletions)
+    if (_numCompletions == _targetNumCompletions)
     {
-        TotalPoints += BonusPoints;
+        _totalPoints += _bonusPoints;
     }
 
-    return PointsPerCompletion;
+    return _pointsPerCompletion;
 }
 
 public override string ToDataString()
 {
-    return $"{base.ToDataString()},{TargetNumCompletions},{NumCompletions},{BonusPoints}";
+    return $"{base.ToDataString()},{_targetNumCompletions},{_numCompletions},{_bonusPoints}";
 }
 }

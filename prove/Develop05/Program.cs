@@ -15,7 +15,7 @@ class Program
 
         while (true)
         {
-            int totalPoints = goals.Sum(goal => goal.TotalPoints);
+            int totalPoints = goals.Sum(goal => goal._totalPoints);
             Console.WriteLine($"You have {totalPoints} points");
             Console.WriteLine();
             Console.WriteLine("Menu Options:");
@@ -93,10 +93,10 @@ class Program
         }
 
         Console.Write("What is the name of the goal? ");
-        goal.Name = Console.ReadLine();
+        goal._name = Console.ReadLine();
 
         Console.Write("What is the goal description? ");
-        goal.Description = Console.ReadLine();
+        goal._description = Console.ReadLine();
 
         Console.Write("What is the amount of points associated with this goal? ");
         if (!int.TryParse(Console.ReadLine(), out int pointsPerCompletion))
@@ -104,14 +104,14 @@ class Program
             Console.WriteLine("Invalid points");
             return;
         }
-        goal.PointsPerCompletion = pointsPerCompletion;
+        goal._pointsPerCompletion = pointsPerCompletion;
 
         // Prompt for bonus information for ChecklistGoals
         if (goal is ChecklistGoal checklistGoal)
         {
             (int completeAmount, int bonusPoints) = PromptForBonus();
-            checklistGoal.TargetNumCompletions = completeAmount;
-            checklistGoal.BonusPoints = bonusPoints;
+            checklistGoal._targetNumCompletions = completeAmount;
+            checklistGoal._bonusPoints = bonusPoints;
         }
 
         goals.Add(goal);
@@ -144,18 +144,18 @@ class Program
         Console.WriteLine("The goals are:");
         foreach (Goal goal in goals)
         {
-            Console.Write($"{goal.GetStatus()} {goal.Name} ({goal.Description})");
+            Console.Write($"{goal.GetStatus()} {goal._name} ({goal._description})");
 
             if (goal is ChecklistGoal checklistGoal)
             {
-                Console.Write($" - Completed {checklistGoal.NumCompletions}/{checklistGoal.TargetNumCompletions} times");
+                Console.Write($" - Completed {checklistGoal._numCompletions}/{checklistGoal._targetNumCompletions} times");
             }
 
             Console.WriteLine();
         }
 
         Console.WriteLine();
-        int totalPoints = goals.Sum(goal => goal.TotalPoints);
+        int totalPoints = goals.Sum(goal => goal._totalPoints);
         Console.WriteLine($"You have {totalPoints} points");
         Console.WriteLine();
     }
@@ -210,7 +210,7 @@ static void LoadGoals()
                         string isCompletedStr = parts[5];
                         if (isCompletedStr != null)
                         {
-                            ((SimpleGoal)goal).IsCompleted = bool.Parse(isCompletedStr);
+                            ((SimpleGoal)goal)._IsCompleted = bool.Parse(isCompletedStr);
                         }
                     }
                     break;
@@ -221,7 +221,7 @@ static void LoadGoals()
                         string numCompletionsStr = parts[5];
                         if (numCompletionsStr != null)
                         {
-                            ((EternalGoal)goal).NumCompletions = int.Parse(numCompletionsStr);
+                            ((EternalGoal)goal)._numCompletions = int.Parse(numCompletionsStr);
                         }
                     }
                     break;
@@ -233,8 +233,8 @@ static void LoadGoals()
                         string targetNumCompletionsStr = parts[6];
                         if (numCompletionsStr2 != null && targetNumCompletionsStr != null)
                         {
-                            ((ChecklistGoal)goal).NumCompletions = int.Parse(numCompletionsStr2);
-                            ((ChecklistGoal)goal).TargetNumCompletions = int.Parse(targetNumCompletionsStr);
+                            ((ChecklistGoal)goal)._numCompletions = int.Parse(numCompletionsStr2);
+                            ((ChecklistGoal)goal)._targetNumCompletions = int.Parse(targetNumCompletionsStr);
                         }
                     }
                     break;
@@ -242,7 +242,7 @@ static void LoadGoals()
                     throw new Exception("Unknown goal type");
             }
 
-            goal.TotalPoints = totalPoints;
+            goal._totalPoints = totalPoints;
             goals.Add(goal);
         }
     }
@@ -251,7 +251,7 @@ static void LoadGoals()
     Console.WriteLine("The goals are:");
     foreach (Goal goal in goals)
     {
-        Console.WriteLine($"{goal.GetType().Name}: {goal.Name} - {goal.TotalPoints} points");
+        Console.WriteLine($"{goal.GetType().Name}: {goal._name} - {goal._totalPoints} points");
     }
 }
 
@@ -261,7 +261,7 @@ static void RecordEvent()
     Console.WriteLine("Which goal did you complete?");
     for (int i = 0; i < goals.Count; i++)
     {
-        Console.WriteLine($"{i + 1}. {goals[i].Name}");
+        Console.WriteLine($"{i + 1}. {goals[i]._name}");
     }
 
     string choiceStr = Console.ReadLine();
