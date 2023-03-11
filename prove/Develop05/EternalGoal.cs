@@ -1,4 +1,4 @@
-class EternalGoal : Goal
+class EternalGoal : Goal  //derived from Goal
 {
     public int _numCompletions { get; set; }
 

@@ -1,4 +1,4 @@
-class ChecklistGoal : Goal
+class ChecklistGoal : Goal  //derived from Goal
 {
     private int _verse1;
     private int _verse2;

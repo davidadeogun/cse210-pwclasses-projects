@@ -1,2 +1,0 @@
-SimpleGoal,simple,goal,10,10,True
-EternalGoal,eternal,goal,20,20,1

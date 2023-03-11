@@ -16,10 +16,10 @@ class Program
     static List<Goal> goals = new List<Goal>();
 
     static void Main()
-    {
-        Console.WriteLine("Welcome to the Eternal Quest program");
+    {   Console.WriteLine();
+        Console.WriteLine("Welcome to the Goal Tracking program");
         Console.WriteLine();
-
+//Menu Options
         while (true)
         {
             int totalPoints = goals.Sum(goal => goal._totalPoints);
@@ -35,8 +35,7 @@ class Program
             Console.WriteLine("7. Quit");
             
 
-            Console.WriteLine("Select a choice from the menu:");
-
+            Console.Write("Select a choice from the menu: ");
             string choiceStr = Console.ReadLine();
             if (!int.TryParse(choiceStr, out int choice))
             {
@@ -76,6 +75,7 @@ class Program
         }
     }
 
+//Create Goals
     static void CreateGoal()
     {
         Console.WriteLine("The types of Goals are: ");
@@ -133,6 +133,8 @@ class Program
         goals.Add(goal);
     }
 
+
+//Prompt for Bonus-  Checklist only
     private static (int, int) PromptForBonus()
     {
         Console.Write("How many times this goal needs to be accomplished for a bonus?");
@@ -154,7 +156,7 @@ class Program
             if (goal is ChecklistGoal checklistGoal)
             {
                 Console.Write(
-                    $" - Completed {checklistGoal._numCompletions}/{checklistGoal._targetNumCompletions} times"
+                    $" --- Currently completed {checklistGoal._numCompletions}/{checklistGoal._targetNumCompletions} times"
                 );
             }
 
@@ -167,7 +169,7 @@ class Program
         Console.WriteLine();
     }
 
-
+//DeleteGoals  - - -Exceeded requirements
     static void DeleteGoal()
     {
         Console.WriteLine("Which goal would you like to delete?");
@@ -192,6 +194,8 @@ class Program
         goals.Remove(goal);
         Console.WriteLine($"{goal._name} has been deleted.");
     }
+
+//SaveGoals
     static void SaveGoals()
     {
         Console.Write("Enter filename to save goals: ");
@@ -207,9 +211,9 @@ class Program
         Console.WriteLine("Goals saved successfully!");
     }
 
-    //DELETE GOAL
+    
 
-
+ //Load Goals
     static void LoadGoals()
     {
         Console.Write("Enter filename to load goals from: ");
@@ -292,6 +296,7 @@ class Program
         }
     }
 
+//Record event
     static void RecordEvent()
     {
         Console.WriteLine("Which goal did you complete?");
@@ -316,7 +321,7 @@ class Program
         int points = goal.RecordEvent();
         Console.WriteLine($"Congratulations! You have earned {points} points");
 
-        // SaveGoals();
+        // SaveGoals(); not necessary
     }
 
 

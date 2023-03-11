@@ -1,4 +1,4 @@
-class SimpleGoal : Goal
+class SimpleGoal : Goal   //derived from Goal
 {
     public bool _IsCompleted { get; set; }
     public SimpleGoal(string name, string description, int pointsPerCompletion, bool isCompleted)
