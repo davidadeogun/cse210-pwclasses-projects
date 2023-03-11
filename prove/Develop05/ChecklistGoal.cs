@@ -1,7 +1,7 @@
 class ChecklistGoal : Goal  //derived from Goal
 {
-    private int _verse1;
-    private int _verse2;
+    protected private int _verse1;
+    protected private int _verse2;
 
     public int _targetNumCompletions { get; set; }
 public int _numCompletions { get; set; }
