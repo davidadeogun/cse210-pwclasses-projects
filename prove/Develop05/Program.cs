@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+
+//Exceeding requirement. The user is presented with an option to delete a goal
+//In reality, what if we had no option to correct a mistake in a program.
+//I shop for groceries, and sometimes I feel like I don't need a product anymore 
+//at the counter. So, I delete it from my cart. The same thing happens here in the program.
+//That is my exceeding requirement, it may look simple but it is powerful.
+
 // Main program class
 class Program
 {
@@ -21,10 +28,13 @@ class Program
             Console.WriteLine("Menu Options:");
             Console.WriteLine("1. Create new goal");
             Console.WriteLine("2. List goals");
-            Console.WriteLine("3. Save goals");
-            Console.WriteLine("4. Load goals");
-            Console.WriteLine("5. Record event");
-            Console.WriteLine("6. Quit");
+            Console.WriteLine("3. Delete goal");  //Exceeding requirment. The user should have the option of deletinga goal
+            Console.WriteLine("4. Save goals");
+            Console.WriteLine("5. Load goals");
+            Console.WriteLine("6. Record event");
+            Console.WriteLine("7. Quit");
+            
+
             Console.WriteLine("Select a choice from the menu:");
 
             string choiceStr = Console.ReadLine();
@@ -43,16 +53,22 @@ class Program
                     ListGoals();
                     break;
                 case 3:
+                    DeleteGoal();  //Exceeding requirement
+                    break;
+                   
+                case 4:
                     SaveGoals();
                     break;
-                case 4:
+                case 5:
                     LoadGoals();
                     break;
-                case 5:
+                case 6:
                     RecordEvent();
                     break;
-                case 6:
+                case 7:
                     return;
+                
+
                 default:
                     Console.WriteLine("Invalid choice");
                     break;
@@ -60,78 +76,62 @@ class Program
         }
     }
 
-   static void CreateGoal()
-{
-    Console.WriteLine("The types of Goals are: ");
-    Console.WriteLine("1. Simple goal");
-    Console.WriteLine("2. Eternal goal");
-    Console.WriteLine("3. Checklist goal");
-    Console.WriteLine("4. Progress goal"); // Exceeding requirement
-    Console.WriteLine("What type of goal would you like to create?");
-
-    string choiceStr = Console.ReadLine();
-    if (!int.TryParse(choiceStr, out int choice))
+    static void CreateGoal()
     {
-        Console.WriteLine("Invalid choice");
-        return;
-    }
+        Console.WriteLine("The types of Goals are: ");
+        Console.WriteLine("1. Simple goal");
+        Console.WriteLine("2. Eternal goal");
+        Console.WriteLine("3. Checklist goal");
+        Console.WriteLine("What type of goal would you like to create?");
 
-    Goal goal = null;
-    switch (choice)
-    {
-        case 1:
-            goal = new SimpleGoal("", "", 0, false);
-            break;
-        case 2:
-            goal = new EternalGoal("", "", 0, 0);
-            break;
-        case 3:
-            goal = new ChecklistGoal("", "", 0, 0, 0, 0);
-            break;
-        case 4:
-            goal = new AddProgressGoal("", "", 0, 0);
-            break;
-        default:
+        string choiceStr = Console.ReadLine();
+        if (!int.TryParse(choiceStr, out int choice))
+        {
             Console.WriteLine("Invalid choice");
             return;
-    }
+        }
 
-    Console.Write("What is the name of the goal? ");
-    goal._name = Console.ReadLine();
-
-    Console.Write("What is the goal description? ");
-    goal._description = Console.ReadLine();
-
-    Console.Write("What is the amount of points associated with this goal? ");
-    if (!int.TryParse(Console.ReadLine(), out int pointsPerCompletion))
-    {
-        Console.WriteLine("Invalid points");
-        return;
-    }
-    goal._pointsPerCompletion = pointsPerCompletion;
-
-    // Prompt for bonus information for ChecklistGoals
-    if (goal is ChecklistGoal checklistGoal)
-    {
-        (int completeAmount, int bonusPoints) = PromptForBonus();
-        checklistGoal._targetNumCompletions = completeAmount;
-        checklistGoal._bonusPoints = bonusPoints;
-    }
-    // Prompt for progress information for AddProgressGoals
-    else if (goal is AddProgressGoal addProgressGoal)
-    {
-        Console.Write("What is the target progress for this goal? ");
-        if (!int.TryParse(Console.ReadLine(), out int targetProgress))
+        Goal goal = null;
+        switch (choice)
         {
-            Console.WriteLine("Invalid target progress");
+            case 1:
+                goal = new SimpleGoal("", "", 0, false);
+                break;
+            case 2:
+                goal = new EternalGoal("", "", 0, 0);
+                break;
+            case 3:
+                goal = new ChecklistGoal("", "", 0, 0, 0, 0);
+                break;
+            default:
+                Console.WriteLine("Invalid choice");
+                return;
+        }
+
+        Console.Write("What is the name of the goal? ");
+        goal._name = Console.ReadLine();
+
+        Console.Write("What is the goal description? ");
+        goal._description = Console.ReadLine();
+
+        Console.Write("What is the amount of points associated with this goal? ");
+        if (!int.TryParse(Console.ReadLine(), out int pointsPerCompletion))
+        {
+            Console.WriteLine("Invalid points");
             return;
         }
-        addProgressGoal._targetProgress = targetProgress;
+        goal._pointsPerCompletion = pointsPerCompletion;
+
+        // Prompt for bonus information for ChecklistGoals
+        if (goal is ChecklistGoal checklistGoal)
+        {
+            (int completeAmount, int bonusPoints) = PromptForBonus();
+            checklistGoal._targetNumCompletions = completeAmount;
+            checklistGoal._bonusPoints = bonusPoints;
+        }
+
+        goals.Add(goal);
     }
-
-    goals.Add(goal);
-}
-
 
     private static (int, int) PromptForBonus()
     {
@@ -157,12 +157,6 @@ class Program
                     $" - Completed {checklistGoal._numCompletions}/{checklistGoal._targetNumCompletions} times"
                 );
             }
-            else if (goal is AddProgressGoal addProgressGoal)
-            {
-                Console.Write(
-                    $" - Progress: {addProgressGoal._progress}/{addProgressGoal._targetProgress}"
-                );
-            }
 
             Console.WriteLine();
         }
@@ -173,6 +167,31 @@ class Program
         Console.WriteLine();
     }
 
+
+    static void DeleteGoal()
+    {
+        Console.WriteLine("Which goal would you like to delete?");
+        for (int i = 0; i < goals.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {goals[i]._name}");
+        }
+
+        string choiceStr = Console.ReadLine();
+        if (!int.TryParse(choiceStr, out int choice))
+        {
+            Console.WriteLine("Invalid choice");
+            return;
+        }
+        if (choice < 1 || choice > goals.Count)
+        {
+            Console.WriteLine("Invalid choice");
+            return;
+        }
+
+        Goal goal = goals[choice - 1];
+        goals.Remove(goal);
+        Console.WriteLine($"{goal._name} has been deleted.");
+    }
     static void SaveGoals()
     {
         Console.Write("Enter filename to save goals: ");
@@ -187,6 +206,9 @@ class Program
         }
         Console.WriteLine("Goals saved successfully!");
     }
+
+    //DELETE GOAL
+
 
     static void LoadGoals()
     {
@@ -210,16 +232,15 @@ class Program
                 string description = parts[2];
                 int pointsPerCompletion = int.Parse(parts[3]);
                 int totalPoints = int.Parse(parts[4]);
-                int progress = int.Parse(parts[5]); // Load the progress towards the larger goal
 
                 Goal goal;
                 switch (typeName)
                 {
                     case "SimpleGoal":
                         goal = new SimpleGoal(name, description, pointsPerCompletion);
-                        if (parts.Length > 6)
+                        if (parts.Length > 5)
                         {
-                            string isCompletedStr = parts[6];
+                            string isCompletedStr = parts[5];
                             if (isCompletedStr != null)
                             {
                                 ((SimpleGoal)goal)._IsCompleted = bool.Parse(isCompletedStr);
@@ -228,9 +249,9 @@ class Program
                         break;
                     case "EternalGoal":
                         goal = new EternalGoal(name, description, pointsPerCompletion, 0);
-                        if (parts.Length > 6)
+                        if (parts.Length > 5)
                         {
-                            string numCompletionsStr = parts[6];
+                            string numCompletionsStr = parts[5];
                             if (numCompletionsStr != null)
                             {
                                 ((EternalGoal)goal)._numCompletions = int.Parse(numCompletionsStr);
@@ -238,11 +259,11 @@ class Program
                         }
                         break;
                     case "ChecklistGoal":
-                        goal = new ChecklistGoal(name, description, pointsPerCompletion, 0, 0, 0);
-                        if (parts.Length > 7)
+                        goal = new ChecklistGoal(name, description, pointsPerCompletion, 0, 0);
+                        if (parts.Length > 6)
                         {
-                            string numCompletionsStr2 = parts[6];
-                            string targetNumCompletionsStr = parts[7];
+                            string numCompletionsStr2 = parts[5];
+                            string targetNumCompletionsStr = parts[6];
                             if (numCompletionsStr2 != null && targetNumCompletionsStr != null)
                             {
                                 ((ChecklistGoal)goal)._numCompletions = int.Parse(
@@ -259,7 +280,6 @@ class Program
                 }
 
                 goal._totalPoints = totalPoints;
-                goal._progress = progress; // Set the progress towards the larger goal
                 goals.Add(goal);
             }
         }
@@ -298,4 +318,7 @@ class Program
 
         // SaveGoals();
     }
+
+
+
 }

@@ -1,2 +1,2 @@
-SimpleGoal,ksks,ksksk,100,100,True
-EternalGoal,kakak,kaka,30,30,1
+SimpleGoal,simple,goal,10,10,True
+EternalGoal,eternal,goal,20,20,1
