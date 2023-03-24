@@ -9,6 +9,8 @@ using System.Linq;
 //There are many more features that for a complete library management application,but the functionalities would be almost
 //exhaustive. 
 
+//Aside from the Main Class, the application contains 9 other classes as separated in 2 other files. 
+
 namespace LibraryManagementSystem
 {
     public class Program

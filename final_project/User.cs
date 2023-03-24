@@ -1,7 +1,7 @@
  //The abstract user class is the base for the different types of user, and it abstracts the common properties
  //and behaviours of all users, and defines the common properties like _name, _email etc and implements the 
  //GetBorrowingPeriod() method in derived classes by making it abstract.
-public abstract class User  //The User class is declared abstract and provides a common base for different types of users.
+public abstract class User  //The parent/ base User class is declared abstract and provides a common base for different types of users.
 {
     protected string _name;    //Applies the principle of encapsulation
     protected string _email;
@@ -25,7 +25,7 @@ public abstract class User  //The User class is declared abstract and provides a
     public abstract TimeSpan GetBorrowingPeriod();  //The GetBorrowingPeriod is abstract in the User Class, which enforces its
 }                                                 //implementation in the derived classes.
 
-public class Student : User
+public class Student : User    //Derived class from the User Class
 {
     protected string _studentID;
 
@@ -43,7 +43,7 @@ public class Student : User
     }
 }
 
-public class Teacher : User
+public class Teacher : User     //Derived class from the User Class
 {
     protected string _teacherID;
 
