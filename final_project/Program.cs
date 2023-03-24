@@ -10,6 +10,8 @@ using System.Linq;
 //exhaustive. 
 
 //Aside from the Main Class, the application contains 9 other classes as separated in 2 other files. 
+//There is still a work in progress application, as there is a need to meet all Rubric requirements
+//So far, it is a functional code.
 
 namespace LibraryManagementSystem
 {
