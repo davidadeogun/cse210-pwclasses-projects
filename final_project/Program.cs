@@ -169,7 +169,7 @@ namespace LibraryManagementSystem
             Console.Write("Enter book ISBN: ");
             string bookISBN = Console.ReadLine();
 
-            Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
+            Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
             if (book == null)
             {
                 Console.WriteLine("Book not found.");
@@ -198,7 +198,7 @@ namespace LibraryManagementSystem
             Console.Write("Enter book ISBN: ");
             string bookISBN = Console.ReadLine();
 
-            Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
+            Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
             if (book == null)
             {
                 Console.WriteLine("Book not found.");
@@ -207,7 +207,7 @@ namespace LibraryManagementSystem
 
             Borrowing borrowing = Borrowings.FirstOrDefault(
                 b =>
-                    b.Book.ISBN == bookISBN
+                    b.Book._iSBN == bookISBN
                     && b.User.Email == userEmail
                     && b.ReturnDate == DateTime.MinValue
             );
@@ -241,7 +241,7 @@ namespace LibraryManagementSystem
             Console.Write("Enter book ISBN: ");
             string bookISBN = Console.ReadLine();
 
-            Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
+            Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
             if (book == null)
             {
                 Console.WriteLine("Book not found.");
@@ -260,20 +260,20 @@ namespace LibraryManagementSystem
             Console.Write("Enter book ISBN: ");
             string bookISBN = Console.ReadLine();
 
-            Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
+            Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
             if (book == null)
             {
                 Console.WriteLine("Book not found.");
                 return;
             }
             Console.WriteLine();
-            Console.WriteLine($"Title: {book.Title}");
-            Console.WriteLine($"Author: {book.Author}");
-            Console.WriteLine($"ISBN: {book.ISBN}");
-            Console.WriteLine($"Category: {book.Category.Name} - {book.Category.Description}");
-            Console.WriteLine($"Publisher: {book.Publisher.Name}");
-            Console.WriteLine($"Publisher Address: {book.Publisher.Address}");
-            Console.WriteLine($"Publisher Phone Number: {book.Publisher.ContactInfo}");
+            Console.WriteLine($"Title: {book._title}");
+            Console.WriteLine($"Author: {book._author}");
+            Console.WriteLine($"ISBN: {book._iSBN}");
+            Console.WriteLine($"Category: {book._category._name} - {book._category._description}");
+            Console.WriteLine($"Publisher: {book._publisher._name}");
+            Console.WriteLine($"Publisher Address: {book._publisher._address}");
+            Console.WriteLine($"Publisher Phone Number: {book._publisher._contactInfo}");
         }
 
         public static void ViewUserDetails()
@@ -325,7 +325,7 @@ namespace LibraryManagementSystem
             Console.WriteLine("Borrowing History:");
             foreach (var borrowing in userBorrowings)
             {
-                Console.WriteLine($"Book Title: {borrowing.Book.Title}");
+                Console.WriteLine($"Book Title: {borrowing.Book._title}");
                 Console.WriteLine($"Borrow Date: {borrowing.BorrowDate.ToShortDateString()}");
                 if (borrowing.ReturnDate == DateTime.MinValue)
                 {
@@ -354,7 +354,7 @@ namespace LibraryManagementSystem
     Console.Write("Enter book ISBN: ");
     string bookISBN = Console.ReadLine();
 
-    Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
+    Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
     if (book == null)
     {
         Console.WriteLine("Book not found.");
@@ -363,7 +363,7 @@ namespace LibraryManagementSystem
 
     Borrowing borrowing = Borrowings.FirstOrDefault(
         b =>
-            b.Book.ISBN == bookISBN
+            b.Book._iSBN == bookISBN
             && b.User.Email == userEmail
             && b.ReturnDate == DateTime.MinValue
     );

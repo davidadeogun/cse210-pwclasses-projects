@@ -1,10 +1,10 @@
  public class Book
     {
-        public string Title;
-        public string Author;
-        public string ISBN;
-        public Category Category;
-        public Publisher Publisher;
+        public string _title;
+        public string _author;
+        public string _iSBN;
+        public Category _category;
+        public Publisher _publisher;
 
         public Book(
             string title,
@@ -14,11 +14,11 @@
             Publisher publisher
         )
         {
-            Title = title;
-            Author = author;
-            ISBN = isbn;
-            Category = category;
-            Publisher = publisher;
+            _title = title;
+            _author = author;
+            _iSBN = isbn;
+            _category = category;
+            _publisher = publisher;
         }
 
   
@@ -84,26 +84,26 @@
     
     public class Category
     {
-        public string Name;
-        public string Description;
+        public string _name;
+        public string _description;
 
         public Category(string name, string description)
         {
-            this.Name = name;
-            this.Description = description;
+            this._name = name;
+            this._description = description;
         }
     }
 
     public class Publisher
     {
-        public string Name;
-        public string Address;
-        public string ContactInfo;
+        public string _name;
+        public string _address;
+        public string _contactInfo;
 
         public Publisher(string name, string address, string contactInfo)
         {
-            Name = name;
-            Address = address;
-            ContactInfo = contactInfo;
+            this._name = name;
+            this._address = address;
+            this._contactInfo = contactInfo;
         }
     }
