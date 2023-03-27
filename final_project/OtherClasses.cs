@@ -1,12 +1,12 @@
  public class Book
     {
-        public string _title;
-        public string _author;
-        public string _iSBN;
+        private string _title;     //attributes
+        private string _author;
+        private string _iSBN;
         public Category _category;
         public Publisher _publisher;
 
-        public Book(
+        public Book(     //constructor
             string title,
             string author,
             string isbn,
@@ -20,8 +20,11 @@
             _category = category;
             _publisher = publisher;
         }
+ //Allows access to the required information without exposing the internal implementation 
+  public string Title => _title;
+  public string Author => _author;
 
-  
+  public string ISBN => _iSBN;
     }
 
      public class Borrowing
@@ -65,6 +68,8 @@
         }
     }
 
+
+
     public class Reservation
     {
         public User User;
@@ -84,26 +89,34 @@
     
     public class Category
     {
-        public string _name;
-        public string _description;
+        private string _name;
+        private string _description;
 
         public Category(string name, string description)
         {
             this._name = name;
             this._description = description;
         }
+
+ //Allows access to the required information without exposing the internal implementation 
+        public string Name => _name;
+        public string Description => _description;
     }
 
     public class Publisher
     {
-        public string _name;
-        public string _address;
-        public string _contactInfo;
+        private string _name;      //attributes
+        private string _address;
+        private string _contactInfo;
 
-        public Publisher(string name, string address, string contactInfo)
+        public Publisher(string name, string address, string contactInfo)   //constructor
         {
             this._name = name;
             this._address = address;
             this._contactInfo = contactInfo;
         }
+
+        public string Name => _name;
+        public string Address => _address;
+        public string ContactInfo => _contactInfo;
     }

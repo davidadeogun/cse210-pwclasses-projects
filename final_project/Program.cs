@@ -6,12 +6,10 @@ using System.Linq;
 //This is a virtual library management application that allows a librarian to manage the 
 //the inventory and members of a library. The librarian can register as many books before they become available to be 
 //reserved, borrowed or returned. Also, only registered users (teacher or student) can borrow a book from the library.
-//There are many more features that for a complete library management application,but the functionalities would be almost
-//exhaustive. 
 
 //Aside from the Main Class, the application contains 9 other classes as separated in 2 other files. 
-//There is still a work in progress application, as there is a need to meet all Rubric requirements
-//So far, it is a functional code.
+
+
 
 namespace LibraryManagementSystem
 {
@@ -40,7 +38,6 @@ namespace LibraryManagementSystem
                 Console.WriteLine("7. View user details");
                 Console.WriteLine("8. View borrowing history");
                 Console.WriteLine("9. Extend due date for a borrowed book");
-
                 Console.WriteLine("10. Exit");
                 Console.Write("Enter your choice: ");
                 choice = int.Parse(Console.ReadLine());
@@ -173,7 +170,7 @@ namespace LibraryManagementSystem
             Console.Write("Enter book ISBN: ");
             string bookISBN = Console.ReadLine();
 
-            Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
+            Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
             if (book == null)
             {
                 Console.WriteLine("Book not found.");
@@ -202,7 +199,7 @@ namespace LibraryManagementSystem
             Console.Write("Enter book ISBN: ");
             string bookISBN = Console.ReadLine();
 
-            Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
+            Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
             if (book == null)
             {
                 Console.WriteLine("Book not found.");
@@ -211,7 +208,7 @@ namespace LibraryManagementSystem
 
             Borrowing borrowing = Borrowings.FirstOrDefault(
                 b =>
-                    b.Book._iSBN == bookISBN
+                    b.Book.ISBN == bookISBN
                     && b.User.Email == userEmail
                     && b.ReturnDate == DateTime.MinValue
             );
@@ -245,7 +242,7 @@ namespace LibraryManagementSystem
             Console.Write("Enter book ISBN: ");
             string bookISBN = Console.ReadLine();
 
-            Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
+            Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
             if (book == null)
             {
                 Console.WriteLine("Book not found.");
@@ -264,20 +261,20 @@ namespace LibraryManagementSystem
             Console.Write("Enter book ISBN: ");
             string bookISBN = Console.ReadLine();
 
-            Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
+            Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
             if (book == null)
             {
                 Console.WriteLine("Book not found.");
                 return;
             }
             Console.WriteLine();
-            Console.WriteLine($"Title: {book._title}");
-            Console.WriteLine($"Author: {book._author}");
-            Console.WriteLine($"ISBN: {book._iSBN}");
-            Console.WriteLine($"Category: {book._category._name} - {book._category._description}");
-            Console.WriteLine($"Publisher: {book._publisher._name}");
-            Console.WriteLine($"Publisher Address: {book._publisher._address}");
-            Console.WriteLine($"Publisher Phone Number: {book._publisher._contactInfo}");
+            Console.WriteLine($"Title: {book.Title}");
+            Console.WriteLine($"Author: {book.Author}");
+            Console.WriteLine($"ISBN: {book.ISBN}");
+            Console.WriteLine($"Category: {book._category.Name} - {book._category.Description}");
+            Console.WriteLine($"Publisher: {book._publisher.Name}");
+            Console.WriteLine($"Publisher Address: {book._publisher.Address}");
+            Console.WriteLine($"Publisher Phone Number: {book._publisher.ContactInfo}");
         }
 
         public static void ViewUserDetails()
@@ -329,7 +326,7 @@ namespace LibraryManagementSystem
             Console.WriteLine("Borrowing History:");
             foreach (var borrowing in userBorrowings)
             {
-                Console.WriteLine($"Book Title: {borrowing.Book._title}");
+                Console.WriteLine($"Book Title: {borrowing.Book.Title}");
                 Console.WriteLine($"Borrow Date: {borrowing.BorrowDate.ToShortDateString()}");
                 if (borrowing.ReturnDate == DateTime.MinValue)
                 {
@@ -358,7 +355,7 @@ namespace LibraryManagementSystem
     Console.Write("Enter book ISBN: ");
     string bookISBN = Console.ReadLine();
 
-    Book book = Books.FirstOrDefault(b => b._iSBN == bookISBN);
+    Book book = Books.FirstOrDefault(b => b.ISBN == bookISBN);
     if (book == null)
     {
         Console.WriteLine("Book not found.");
@@ -367,7 +364,7 @@ namespace LibraryManagementSystem
 
     Borrowing borrowing = Borrowings.FirstOrDefault(
         b =>
-            b.Book._iSBN == bookISBN
+            b.Book.ISBN == bookISBN
             && b.User.Email == userEmail
             && b.ReturnDate == DateTime.MinValue
     );
