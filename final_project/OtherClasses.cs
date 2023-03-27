@@ -116,6 +116,7 @@
             this._contactInfo = contactInfo;
         }
 
+ //Allows access to the required information without exposing the internal implementation
         public string Name => _name;
         public string Address => _address;
         public string ContactInfo => _contactInfo;
