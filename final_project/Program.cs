@@ -6,7 +6,6 @@ using System.Linq;
 //This is a virtual library management application that allows a librarian to manage the 
 //the inventory and members of a library. The librarian can register as many books before they become available to be 
 //reserved, borrowed or returned. Also, only registered users (teacher or student) can borrow a book from the library.
-
 //Aside from the Main Class, the application contains 9 other classes as separated in 2 other files. 
 
 
